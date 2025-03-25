@@ -267,6 +267,7 @@ public class App {
                                 }
                             } else if(map[y][x] == 'I' || map[y][x] == 'A' || map[y][x] == 'V'){
                                 int iDragon = 0;
+                                int menuMatchD = 0;
                                 do {
                                     for (int i = 0; i < user.get(indexPlayer).listDragon.size(); i++) {
                                         if(user.get(indexPlayer).listDragon.get(i).xDragon == x && user.get(indexPlayer).listDragon.get(i).yDragon == y){
@@ -333,7 +334,6 @@ public class App {
                                             }
                                         } while(!inputFeed.equals("e"));
                                     } else if(menuDetailDragon == 2){
-                                        int menuMatchD;
                                         do {
                                             Boolean isMatch = false;
                                             System.out.println("===============================");
@@ -402,34 +402,38 @@ public class App {
                                                 if(inputSelection.equals("y") && isYes){
                                                     String nameNewDragonInc;
                                                     int randDominan = rand.nextInt(2);
-               
-                                                    if(randDominan == 0){
-                                                        String name1 = user.get(indexPlayer).incubatorMatch.get(0).jenisDragon;
-                                                        String name2 = user.get(indexPlayer).incubatorMatch.get(1).jenisDragon;
-                                                        String name1Substr = name1.length() > 3 ? name1.substring(0, name1.length() - 3) : name1;
-                                                        String name2Substr = name2.length() >= 3 ? name2.substring(name2.length() - 3) : name2;
-                                                        nameNewDragonInc = name1Substr + name2Substr;
+
+                                                    if(user.get(indexPlayer).incubatorMatch.get(0).jenisDragon == user.get(indexPlayer).incubatorMatch.get(1).jenisDragon){
+                                                        nameNewDragonInc = user.get(indexPlayer).incubatorMatch.get(0).jenisDragon;
                                                     } else {
-                                                        String name1 = user.get(indexPlayer).incubatorMatch.get(1).jenisDragon;
-                                                        String name2 = user.get(indexPlayer).incubatorMatch.get(0).jenisDragon;
-                                                        String name1Substr = name1.length() > 3 ? name1.substring(0, name1.length() - 3) : name1;
-                                                        String name2Substr = name2.length() >= 3 ? name2.substring(name2.length() - 3) : name2;
-                                                        nameNewDragonInc = name1Substr + name2Substr;
+                                                        if(randDominan == 0){
+                                                            String name1 = user.get(indexPlayer).incubatorMatch.get(0).jenisDragon;
+                                                            String name2 = user.get(indexPlayer).incubatorMatch.get(1).jenisDragon;
+                                                            String name1Substr = name1.length() > 3 ? name1.substring(0, name1.length() - 3) : name1;
+                                                            String name2Substr = name2.length() >= 3 ? name2.substring(name2.length() - 3) : name2;
+                                                            nameNewDragonInc = name1Substr + name2Substr;
+                                                        } else {
+                                                            String name1 = user.get(indexPlayer).incubatorMatch.get(1).jenisDragon;
+                                                            String name2 = user.get(indexPlayer).incubatorMatch.get(0).jenisDragon;
+                                                            String name1Substr = name1.length() > 3 ? name1.substring(0, name1.length() - 3) : name1;
+                                                            String name2Substr = name2.length() >= 3 ? name2.substring(name2.length() - 3) : name2;
+                                                            nameNewDragonInc = name1Substr + name2Substr;
+                                                        }
                                                     }
 
                                                     Dragon dragonInc = new Dragon(nameNewDragonInc, nameNewDragonInc, 1, 1, 1, 0, user.get(indexPlayer).incubatorMatch.get(randDominan).elemenDragon);
                                                     System.out.println("New Dragon Created!");
                                                     System.out.println("Incubating " + nameNewDragonInc + " Eg...");
+
                                                     // for(int i = 0; i < user.get(indexPlayer).incubatorMatch.size(); i++){
                                                     //     System.out.println(user.get(indexPlayer).incubatorMatch.get(i).jenisDragon);
                                                     // }
 
                                                     user.get(indexPlayer).incubatorProgress.add(dragonInc);
-
                                                     user.get(indexPlayer).incubatorMatch.clear();
                                                     break;
                                                 } else if(!isYes){
-                                                    System.out.println("The incubator is occupied, come back later.");
+                                                    System.out.println("The incubator is occupied, come back later");
                                                     for(int i = 0; i < user.get(indexPlayer).listDragon.size(); i++){
                                                         if(user.get(indexPlayer).listDragon.get(indexPlayer).selected == true){
                                                             user.get(indexPlayer).listDragon.get(i).selected = false;
@@ -438,11 +442,14 @@ public class App {
                                                     user.get(indexPlayer).incubatorMatch.clear();
                                                     break;
                                                 } else {
-                                                    for(int i = 0; i < user.get(indexPlayer).listDragon.size(); i++){
-                                                        if(user.get(indexPlayer).listDragon.get(indexPlayer).selected == true){
-                                                            user.get(indexPlayer).listDragon.get(i).selected = false;
-                                                        }
+                                                    if(!inputSelection.equals("n")){
+                                                        System.out.println("Invalid input!");
+                                                    } else {
+                                                        System.out.println("Match Cancelled");
                                                     }
+                                                    user.get(indexPlayer).listDragon.get(iDragon).selected = false;
+                                                    user.get(indexPlayer).listDragon.get(menuMatchD-1).selected = false;
+
                                                     user.get(indexPlayer).incubatorMatch.clear();
                                                     break;
                                                 }
@@ -452,6 +459,8 @@ public class App {
                                         user.get(indexPlayer).listDragon.get(menuMatchD-1).selected = false;
                                     }
                                 } while (menuDetailDragon != 0);
+                                user.get(indexPlayer).listDragon.get(iDragon).selected = false;
+                                user.get(indexPlayer).listDragon.get(menuMatchD-1).selected = false;
                                 
                                 if(keyGame.equals("w")){
                                     y++;
